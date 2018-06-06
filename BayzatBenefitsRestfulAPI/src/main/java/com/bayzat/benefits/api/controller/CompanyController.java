@@ -24,12 +24,13 @@ public class CompanyController {
 	
 	@RequestMapping(value="/companies", method=RequestMethod.GET)
 	public List<BzbTCompany> getAllCompanies() {
-		return companyService.getAllCompanies();
+		List<BzbTCompany> companies = companyService.getAllCompanies(); 
+		return companies;
 	}
 	
 	@RequestMapping(value="/companies/{id}", method=RequestMethod.GET)
-	public void getCompany(@PathVariable Integer id) {
-		companyService.getCompany(id);
+	public BzbTCompany getCompany(@PathVariable Long id) {
+		return companyService.getCompany(id);
 	}
 
 	@RequestMapping(value="/companies", method=RequestMethod.POST)
@@ -38,12 +39,12 @@ public class CompanyController {
 	}
 	
 	@RequestMapping(value="/companies/{id}", method=RequestMethod.PUT)
-	public void updateCompany(@PathVariable Integer id, @RequestBody BzbTCompany company) {
+	public void updateCompany(@PathVariable Long id, @RequestBody BzbTCompany company) {
 		companyService.updateCompany(id, company);
 	}
 	
 	@RequestMapping(value="/companies/{id}", method=RequestMethod.DELETE)
-	public void deleteCompany(@PathVariable Integer id) {
+	public void deleteCompany(@PathVariable Long id) {
 		companyService.deleteCompany(id);
 	}
 }

@@ -1,15 +1,13 @@
 package com.bayzat.benefits.api.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -26,9 +24,10 @@ public class BzbTAddress implements Serializable {
 	private static final long serialVersionUID = -4508451352423057762L;
 
 	@Id
-	@GeneratedValue (strategy=GenerationType.SEQUENCE)
-	@Column(name="ADDRESS_ID")
-	private Integer addressId;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="BZB_SQ_ADDRESS_GEN")
+	@SequenceGenerator(name="BZB_SQ_ADDRESS_GEN", sequenceName="BZB_SQ_ADDRESS_ID", initialValue=1001, allocationSize=1)
+	@Column(name="ADDRESS_ID", updatable=false, nullable=false)
+	private Long addressId;
 	
 	@Column (name="BUILDING_NAME")
 	private String buildingName;
@@ -54,16 +53,7 @@ public class BzbTAddress implements Serializable {
 	@Column(name="POSTAL_CODE")
 	private String postalCode;
 	
-	@OneToOne
-	private BzbTCompany company;
-	
-	@ManyToOne
-	private List<BzbTEmployee> employees;
-	
-	@ManyToOne
-	private List<BzbTDependant> dependants;
-	
-	
+
 	/**
 	 * No Argument Default Constructor
 	 */
@@ -97,14 +87,14 @@ public class BzbTAddress implements Serializable {
 	/**
 	 * @return the addressId
 	 */
-	public Integer getAddressId() {
+	public Long getAddressId() {
 		return addressId;
 	}
 
 	/**
 	 * @param addressId the addressId to set
 	 */
-	public void setAddressId(Integer addressId) {
+	public void setAddressId(Long addressId) {
 		this.addressId = addressId;
 	}
 

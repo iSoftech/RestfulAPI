@@ -3,15 +3,21 @@ package com.bayzat.benefits.api.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author Mohamed Yusuff
@@ -27,31 +33,32 @@ public class BzbTCompany implements Serializable {
 	private static final long serialVersionUID = 4660408765265956006L;
 	
 	@Id
-	@GeneratedValue (strategy=GenerationType.SEQUENCE)
-	@Column (name="COMPANY_ID")
-	private Integer companyId;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="BZB_SQ_COMPANY_GEN")
+	@SequenceGenerator(name="BZB_SQ_COMPANY_GEN", sequenceName="BZB_SQ_COMPANY_ID", initialValue=1001, allocationSize=1)
+	@Column(name="COMPANY_ID", updatable=false, nullable=false)
+	private Long companyId;
 	
-	@Column (name="NAME")
+	@Column(name="NAME")
 	private String name;
 	
-	@Column (name="REGISTRATION_NUMBER")
+	@Column(name="REGISTRATION_NUMBER")
 	private String registrationNumber;
 	
-	@Column (name="CONTACT_NUMBER")
+	@Column(name="CONTACT_NUMBER")
 	private String contactNumber;
 	
-	@Column (name="EMAIL")
+	@Column(name="EMAIL")
 	private String email;
 	
-	@Column (name="WEBSITE")
+	@Column(name="WEBSITE")
 	private String website;
 	
-	@OneToOne
-	@JoinColumn(name="ADDRESS_ID")
-	@Column (name="ADDRESS")
+	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@JoinColumn(name="ADDRESS_ID", foreignKey=@ForeignKey(name="BZB_FK_COMPANY_ADDRESS_ID"))
 	private BzbTAddress address;
 	
-	@OneToMany
+	@OneToMany(mappedBy="company", fetch=FetchType.LAZY)
+	@JsonIgnore
 	private List<BzbTEmployee> employees;
 
 	
@@ -84,13 +91,13 @@ public class BzbTCompany implements Serializable {
 	/**
 	 * @return the companyId
 	 */
-	public Integer getCompanyId() {
+	public Long getCompanyId() {
 		return companyId;
 	}
 	/**
 	 * @param companyId the companyId to set
 	 */
-	public void setCompanyId(Integer companyId) {
+	public void setCompanyId(Long companyId) {
 		this.companyId = companyId;
 	}
 	/**
@@ -186,7 +193,6 @@ public class BzbTCompany implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((employees == null) ? 0 : employees.hashCode());
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((contactNumber == null) ? 0 : contactNumber.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
@@ -209,11 +215,6 @@ public class BzbTCompany implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		BzbTCompany other = (BzbTCompany) obj;
-		if (employees == null) {
-			if (other.employees != null)
-				return false;
-		} else if (!employees.equals(other.employees))
-			return false;
 		if (address == null) {
 			if (other.address != null)
 				return false;
@@ -255,6 +256,6 @@ public class BzbTCompany implements Serializable {
 	public String toString() {
 		return "BzbTCompany [companyId=" + companyId + ", name=" + name + ", registrationNumber=" + registrationNumber
 				+ ", contactNumber=" + contactNumber + ", email=" + email + ", website=" + website + ", address="
-				+ address + ", employees=" + employees + "]";
+				+ address + /*", employees=" + employees + */"]";
 	}
 }

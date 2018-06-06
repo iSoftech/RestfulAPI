@@ -4,17 +4,25 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * @author Mohamed Yusuff
@@ -30,53 +38,53 @@ public class BzbTEmployee implements Serializable {
 	private static final long serialVersionUID = 4726052352627225895L;
 
 	@Id
-	@GeneratedValue (strategy=GenerationType.SEQUENCE)
-	@Column(name="EMPLOYEE_ID")
-	private Integer employeeId;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="BZB_SQ_EMPLOYEE_GEN")
+	@SequenceGenerator(name="BZB_SQ_EMPLOYEE_GEN", sequenceName="BZB_SQ_EMPLOYEE_ID", initialValue=1001, allocationSize=1)
+	@Column(name="EMPLOYEE_ID", updatable=false, nullable=false)
+	private Long employeeId;
 	
-	@Column (name="EMPLOYEE_CODE")
+	@Column(name="EMPLOYEE_CODE")
 	private String employeeCode;
 	
-	@Column (name="FIRST_NAME")
+	@Column(name="FIRST_NAME")
 	private String firstName;
 	
-	@Column (name="LAST_NAME")
+	@Column(name="LAST_NAME")
 	private String lastName;
 	
-	@Column (name="GENDER")
+	@Column(name="GENDER")
 	private String gender;
 	
-	@Column (name="AGE")
+	@Column(name="AGE")
 	private Integer age;
 	
-	@Column (name="DATE_OF_BIRTH")
-	@Temporal (TemporalType.DATE)
+	@Column(name="DATE_OF_BIRTH")
+	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 	
-	@Column (name="CONTACT_NUMBER")
+	@Column(name="CONTACT_NUMBER")
 	private String contactNumber;
 	
-	@Column (name="EMAIL")
+	@Column(name="EMAIL")
 	private String email;
 	
-	@Column (name="CURRENT_SALARY")
+	@Column(name="CURRENT_SALARY")
 	private Double currentSalary;
 	
-	@Column (name="DATE_OF_JOINING")
-	@Temporal (TemporalType.DATE)
+	@Column(name="DATE_OF_JOINING")
+	@Temporal(TemporalType.DATE)
 	private Date dateOfJoining;
 	
-	@ManyToOne
-	@JoinColumn(name="ADDRESS_ID")
-	@Column (name="ADDRESS")
+	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
+	@JoinColumn(name="ADDRESS_ID", foreignKey=@ForeignKey(name="BZB_FK_EMPLOYEE_ADDRESS_ID"))
 	private BzbTAddress address;
 	
-	@ManyToOne
-	@JoinColumn(name="COMPANY_ID")
-	@Column (name="COMPANY")
+	@ManyToOne(fetch=FetchType.EAGER)
+	@OnDelete(action=OnDeleteAction.CASCADE)
+	@JoinColumn(name="COMPANY_ID", nullable=false, foreignKey=@ForeignKey(name="BZB_FK_EMPLOYEE_COMPANY_ID"))
 	private BzbTCompany company;
 	
-	@OneToMany
+	@OneToMany(mappedBy="employee", fetch=FetchType.LAZY)
 	private List<BzbTDependant> dependants;
 
 	
@@ -122,14 +130,14 @@ public class BzbTEmployee implements Serializable {
 	/**
 	 * @return the employeeId
 	 */
-	public Integer getEmployeeId() {
+	public Long getEmployeeId() {
 		return employeeId;
 	}
 
 	/**
 	 * @param employeeId the employeeId to set
 	 */
-	public void setEmployeeId(Integer employeeId) {
+	public void setEmployeeId(Long employeeId) {
 		this.employeeId = employeeId;
 	}
 
@@ -426,7 +434,7 @@ public class BzbTEmployee implements Serializable {
 		return "BzbTEmployee [employeeId=" + employeeId + ", employeeCode=" + employeeCode + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", gender=" + gender + ", age=" + age + ", dateOfBirth=" + dateOfBirth
 				+ ", contactNumber=" + contactNumber + ", email=" + email + ", currentSalary=" + currentSalary
-				+ ", dateOfJoining=" + dateOfJoining + ", address=" + address + ", company=" + company + ", dependants="
-				+ dependants + "]";
+				+ ", dateOfJoining=" + dateOfJoining + ", address=" + address + ", company=" + company/* + ", dependants="
+				+ dependants */+ "]";
 	}
 }

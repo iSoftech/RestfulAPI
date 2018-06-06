@@ -15,11 +15,11 @@ public interface ICompanyService {
 
 	public List<BzbTCompany> getAllCompanies();
 	
-	public BzbTCompany getCompany(Integer id);
+	public BzbTCompany getCompany(Long id);
 	
 	public void addCompany(BzbTCompany company);
 	
-	public void updateCompany(Integer id, BzbTCompany company);
+	public void updateCompany(Long id, BzbTCompany company);
 	
-	public void deleteCompany(Integer id);
+	public void deleteCompany(Long id);
 }

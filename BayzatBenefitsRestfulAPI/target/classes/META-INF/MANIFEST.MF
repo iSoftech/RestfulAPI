@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: BayzatBenefitsRestfulAPI
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Mohamed
+Implementation-Vendor-Id: com.bayzat.benefits.api
+Build-Jdk: 1.8.0_171
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/BayzatBenefitsRestfulAPI
+Created-By: Maven Integration for Eclipse
+

@@ -25,32 +25,30 @@ public class CompanyServiceImpl implements ICompanyService {
 	
 	@Override
 	public List<BzbTCompany> getAllCompanies() {
-		//return companyRepository.findAll();
-		return new ArrayList<BzbTCompany>();
+		List<BzbTCompany> companies = new ArrayList<>(0);
+		companyRepository.findAll().forEach(companies::add);
+		return companies;
 	}
 
 	@Override
-	public BzbTCompany getCompany(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	public BzbTCompany getCompany(Long id) {
+		return getAllCompanies().stream().filter(c -> c.getCompanyId().equals(id)).findFirst().get();
 	}
 
 	@Override
 	public void addCompany(BzbTCompany company) {
-		// TODO Auto-generated method stub
-		
+		companyRepository.save(company);
 	}
 
 	@Override
-	public void updateCompany(Integer id, BzbTCompany company) {
-		// TODO Auto-generated method stub
-		
+	public void updateCompany(Long id, BzbTCompany company) {
+		company.setCompanyId(id);
+		companyRepository.save(company);
 	}
 
 	@Override
-	public void deleteCompany(Integer id) {
-		// TODO Auto-generated method stub
-		
+	public void deleteCompany(Long id) {
+		companyRepository.deleteById(id);
 	}
 
 }

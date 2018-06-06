@@ -5,14 +5,20 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * @author Mohamed Yusuff
@@ -28,43 +34,43 @@ public class BzbTDependant implements Serializable {
 	private static final long serialVersionUID = -3038472736903820231L;
 
 	@Id
-	@GeneratedValue (strategy=GenerationType.SEQUENCE)
-	@Column(name="DEPENDANT_ID")
-	private Integer dependantId;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="BZB_SQ_DEPENDANT_GEN")
+	@SequenceGenerator(name="BZB_SQ_DEPENDANT_GEN", sequenceName="BZB_SQ_DEPENDANT_ID", initialValue=1001, allocationSize=1)
+	@Column(name="DEPENDANT_ID", updatable=false, nullable=false)
+	private Long dependantId;
 	
-	@Column (name="FIRST_NAME")
+	@Column(name="FIRST_NAME")
 	private String firstName;
 	
-	@Column (name="LAST_NAME")
+	@Column(name="LAST_NAME")
 	private String lastName;
 	
-	@Column (name="GENDER")
+	@Column(name="GENDER")
 	private String gender;
 	
-	@Column (name="AGE")
+	@Column(name="AGE")
 	private Integer age;
 	
-	@Column (name="DATE_OF_BIRTH")
-	@Temporal (TemporalType.DATE)
+	@Column(name="DATE_OF_BIRTH")
+	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 	
-	@Column (name="CONTACT_NUMBER")
+	@Column(name="CONTACT_NUMBER")
 	private String contactNumber;
 	
-	@Column (name="EMAIL")
+	@Column(name="EMAIL")
 	private String email;
 	
-	@Column (name="RELATIONSHIP")
+	@Column(name="RELATIONSHIP")
 	private String relationship;
 	
-	@ManyToOne
-	@JoinColumn(name="ADDRESS_ID")
-	@Column (name="ADDRESS")
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="ADDRESS_ID", foreignKey=@ForeignKey(name="BZB_FK_DEPENDANT_ADDRESS_ID"))
 	private BzbTAddress address;
 	
-	@ManyToOne
-	@JoinColumn(name="EMPLOYEE_ID")
-	@Column (name="EMPLOYEE")
+	@ManyToOne(fetch=FetchType.EAGER)
+	@OnDelete(action=OnDeleteAction.CASCADE)
+	@JoinColumn(name="EMPLOYEE_ID", nullable=false, foreignKey=@ForeignKey(name="BZB_FK_DEPENDANT_EMPLOYEE_ID"))
 	private BzbTEmployee employee;
 
 
@@ -105,14 +111,14 @@ public class BzbTDependant implements Serializable {
 	/**
 	 * @return the dependantId
 	 */
-	public Integer getDependantId() {
+	public Long getDependantId() {
 		return dependantId;
 	}
 
 	/**
 	 * @param dependantId the dependantId to set
 	 */
-	public void setDependantId(Integer dependantId) {
+	public void setDependantId(Long dependantId) {
 		this.dependantId = dependantId;
 	}
 
