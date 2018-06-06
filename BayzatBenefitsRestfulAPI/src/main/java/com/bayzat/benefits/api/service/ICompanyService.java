@@ -19,7 +19,7 @@ public interface ICompanyService {
 	
 	public void addCompany(BzbTCompany company);
 	
-	public void updateCompany(BzbTCompany company);
+	public void updateCompany(Integer id, BzbTCompany company);
 	
 	public void deleteCompany(Integer id);
 }

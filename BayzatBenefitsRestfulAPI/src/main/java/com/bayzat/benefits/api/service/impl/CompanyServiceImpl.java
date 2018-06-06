@@ -3,6 +3,7 @@
  */
 package com.bayzat.benefits.api.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class CompanyServiceImpl implements ICompanyService {
 	
 	@Override
 	public List<BzbTCompany> getAllCompanies() {
-		// TODO Auto-generated method stub
-		return null;
+		//return companyRepository.findAll();
+		return new ArrayList<BzbTCompany>();
 	}
 
 	@Override
@@ -41,7 +42,7 @@ public class CompanyServiceImpl implements ICompanyService {
 	}
 
 	@Override
-	public void updateCompany(BzbTCompany company) {
+	public void updateCompany(Integer id, BzbTCompany company) {
 		// TODO Auto-generated method stub
 		
 	}
