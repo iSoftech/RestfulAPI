@@ -4,7 +4,7 @@
 package com.bayzat.benefits.api.repo;
 
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.bayzat.benefits.api.model.BzbTCompany;
@@ -14,6 +14,6 @@ import com.bayzat.benefits.api.model.BzbTCompany;
  *
  */
 @Repository
-public interface ICompanyRepository extends CrudRepository<BzbTCompany, Long> {
+public interface ICompanyRepository extends JpaRepository<BzbTCompany, Long> {
 
 }
