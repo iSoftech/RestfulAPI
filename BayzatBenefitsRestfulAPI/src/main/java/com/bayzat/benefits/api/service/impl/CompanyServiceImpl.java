@@ -64,7 +64,7 @@ public class CompanyServiceImpl implements ICompanyService {
 			Optional<BzbTCompany> companyOpt = companyRepository.findById(companyId);
 			// Throws Resource Not Exist Exception if not present
 			if (!companyOpt.isPresent()) {
-				throw new CompanyResourceNotExistException("The requested Company with Id: " + companyId
+				throw new CompanyResourceNotExistException("The requested Company with Id - " + companyId
 						+ " doesn't exist. The requested operation [GET] cannot be performed.");
 			}
 			// Retrieves requested Company if present
@@ -137,7 +137,7 @@ public class CompanyServiceImpl implements ICompanyService {
 			Optional<BzbTCompany> companyOpt = companyRepository.findById(companyId);
 			// Throws Resource Not Exist Exception if not present
 			if (!companyOpt.isPresent()) {
-				throw new CompanyResourceNotExistException("The requested Company with Id: " + companyId
+				throw new CompanyResourceNotExistException("The requested Company with Id - " + companyId
 						+ " doesn't exist. The requested operation [PUT] cannot be performed.");
 			}
 			// Sets the requested CompanyId
@@ -163,7 +163,7 @@ public class CompanyServiceImpl implements ICompanyService {
 			Optional<BzbTCompany> companyOpt = companyRepository.findById(companyId);
 			// Throws Resource Not Exist Exception if not present
 			if (!companyOpt.isPresent()) {
-				throw new CompanyResourceNotExistException("The requested Company with Id: " + companyId
+				throw new CompanyResourceNotExistException("The requested Company with Id - " + companyId
 						+ " doesn't exist. The requested operation [DELETE] cannot be performed.");
 			}
 			// Deletes the requested Company by its id if present
