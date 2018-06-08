@@ -17,15 +17,19 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.hateoas.ResourceSupport;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * @author Mohamed Yusuff
  *
  */
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table (name="BZB_T_COMPANY")
-public class BzbTCompany implements Serializable {
+public class BzbTCompany extends ResourceSupport implements Serializable {
 	
 	/**
 	 * Auto Generated Serial Version UID

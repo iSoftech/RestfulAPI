@@ -1,8 +1,16 @@
-package com.bayzat.benefits.api.controller;
+package com.bayzat.benefits.api.resource;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Links;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.bayzat.benefits.api.model.BzbTCompany;
 import com.bayzat.benefits.api.service.ICompanyService;
@@ -20,12 +29,10 @@ import com.bayzat.benefits.api.service.ICompanyService;
  * 
  * @author Mohamed Yusuff
  */
+@RequestMapping("/companies")
 @RestController
-public class CompanyController {
+public class CompanyResource {
 
-	private static final String COLLECTION_URL = "/companies";
-	private static final String ITEM_URL = COLLECTION_URL + "/{companyId}";
-	
 	@Autowired
 	private ICompanyService companyService;
 	
@@ -63,9 +70,69 @@ public class CompanyController {
 	 * 
 	 * @return a list of {@link BzbTCompany}
 	 */
-	@RequestMapping(value=COLLECTION_URL, method=RequestMethod.GET)
-	public List<BzbTCompany> getAllCompanies() {
-		return companyService.getAllCompanies();
+	@RequestMapping(method=RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<Resources<BzbTCompany>> getAllCompanies() {
+//		return companyService.getAllCompanies();
+		List<BzbTCompany> allCompanies = companyService.getAllCompanies();
+	    for (BzbTCompany company : allCompanies) {
+	        Long companyId = company.getCompanyId();
+	        Link selfLink = linkTo(CompanyResource.class).slash(companyId).withSelfRel();
+	        company.add(selfLink);
+	        /*if (orderService.getAllOrdersForCustomer(customerId).size() > 0) {
+	            Link ordersLink = linkTo(methodOn(CompanyResource.class)
+	              .getOrdersForCustomer(customerId)).withRel("allOrders");
+	            customer.add(ordersLink);
+	        }*/
+	    }
+		Link link = linkTo(CompanyResource.class).withSelfRel();
+		Resources<BzbTCompany> result = new Resources<BzbTCompany>(allCompanies, link);
+		return ResponseEntity.ok(result);
+	}
+
+	/**
+	 * <strong>Creates a Company Entity [<tt>POST</tt>]</strong>
+	 * <br>
+	 * Adds a new <tt>Company</tt> details with <tt>POST</tt> method.
+	 * 
+	 * <pre>
+	 * {@code Request (application/json)}
+	 * 	
+	 *   {
+	 *       "name": "Bayzat",
+	 *       "registrationNumber": "Bzt-2013",
+	 *       "contactNumber": "+97144298898",
+	 *       "email": "talktous@bayzat.com",
+	 *       "website": "http://www.bayzat.com",
+	 *       "address": {
+	 *           "buildingName": "Control Tower",
+	 *           "unitNumber": "10-01",
+	 *           "streetAddress": "Detroid Rd",
+	 *           "town": "Motor City",
+	 *           "city": "Dubai",
+	 *           "state": "",
+	 *           "country": "United Arab Emirates",
+	 *           "postalCode": "391186"
+	 *       }
+	 *   }
+	 *   
+	 * {@code Response 201 (application/json)}
+	 * </pre>
+	 * 
+	 * @param company refers to a new instance of {@link BzbTCompany}
+	 */
+	@RequestMapping(method=RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<Resource<BzbTCompany>> addCompany(@RequestBody BzbTCompany company) {
+		BzbTCompany savedCompany = companyService.addCompany(company);
+		
+		Link selfLink = linkTo(CompanyResource.class).slash(savedCompany.getCompanyId()).withSelfRel();
+		Link parentLink = linkTo(methodOn(this.getClass()).getAllCompanies()).withRel("companies");
+		Resource<BzbTCompany> resource = new Resource<BzbTCompany>(savedCompany, new Links(selfLink, parentLink));
+		
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{companyId}")
+				.buildAndExpand(savedCompany.getCompanyId()).toUri();
+		return ResponseEntity.created(location).body(resource);
 	}
 	
 	/**
@@ -106,48 +173,19 @@ public class CompanyController {
 	 * @param companyId refers to attribute {@code companyId}
 	 * @return a single {@link BzbTCompany} identified by its id
 	 */
-	@RequestMapping(value=ITEM_URL, method=RequestMethod.GET)
-	public /*ResponseEntity<?>*/ BzbTCompany getCompany(@PathVariable Long companyId) {
+	@RequestMapping(value="/{companyId}", method=RequestMethod.GET)
+	public ResponseEntity<Resource<BzbTCompany>> getCompany(@PathVariable Long companyId) {
 		/*final BzbTCompany company = companyService.getCompany(companyId);
 		return (company == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(company);*/
-		return companyService.getCompany(companyId);
-	}
-
-	/**
-	 * <strong>Creates a Company Entity [<tt>POST</tt>]</strong>
-	 * <br>
-	 * Adds a new <tt>Company</tt> details with <tt>POST</tt> method.
-	 * 
-	 * <pre>
-	 * {@code Request (application/json)}
-	 * 	
-	 *   {
-	 *       "name": "Bayzat",
-	 *       "registrationNumber": "Bzt-2013",
-	 *       "contactNumber": "+97144298898",
-	 *       "email": "talktous@bayzat.com",
-	 *       "website": "http://www.bayzat.com",
-	 *       "address": {
-	 *           "buildingName": "Control Tower",
-	 *           "unitNumber": "10-01",
-	 *           "streetAddress": "Detroid Rd",
-	 *           "town": "Motor City",
-	 *           "city": "Dubai",
-	 *           "state": "",
-	 *           "country": "United Arab Emirates",
-	 *           "postalCode": "391186"
-	 *       }
-	 *   }
-	 *   
-	 * {@code Response 201 (application/json)}
-	 * </pre>
-	 * 
-	 * @param company refers to a new instance of {@link BzbTCompany}
-	 */
-	@RequestMapping(value=COLLECTION_URL, method=RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
-	public void addCompany(@RequestBody BzbTCompany company) {
-		companyService.addCompany(company);
+		BzbTCompany company = companyService.getCompany(companyId);
+        Link selfLink = linkTo(CompanyResource.class).slash(companyId).withSelfRel();
+        company.add(selfLink);
+        
+		Link link = linkTo(methodOn(this.getClass()).getAllCompanies()).withRel("companies");
+		Resource<BzbTCompany> resource = new Resource<BzbTCompany>(company, link);
+		return ResponseEntity.ok(resource);
+		
+		/*return companyService.getCompany(companyId);*/
 	}
 
 	/**
@@ -186,11 +224,20 @@ public class CompanyController {
 	 * 
 	 * @param companyId refers to attribute {@code companyId}
 	 * @param company refers to an updated instance of {@link BzbTCompany}
+	 * @return 
 	 */
-	@RequestMapping(value=ITEM_URL, method=RequestMethod.PUT)
+	@RequestMapping(value="/{companyId}", method=RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.CREATED)
-	public void updateCompany(@PathVariable Long companyId, @RequestBody BzbTCompany company) {
-		companyService.updateCompany(companyId, company);
+	public ResponseEntity<Resource<BzbTCompany>> updateCompany(@PathVariable Long companyId,
+			@RequestBody BzbTCompany company) {
+		/*return companyService.updateCompany(companyId, company);*/
+		BzbTCompany updatedCompany = companyService.updateCompany(companyId, company);
+		Link selfLink = linkTo(CompanyResource.class).slash(updatedCompany.getCompanyId()).withSelfRel();
+		Link parentLink = linkTo(methodOn(this.getClass()).getAllCompanies()).withRel("companies");
+		Resource<BzbTCompany> resource = new Resource<BzbTCompany>(updatedCompany, new Links(selfLink, parentLink));
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+				.buildAndExpand(updatedCompany.getCompanyId()).toUri();
+		return ResponseEntity.created(location).body(resource);
 	}
 	
 	/**
@@ -210,7 +257,7 @@ public class CompanyController {
 	 * 
 	 * @param companyId refers to attribute {@code companyId}
 	 */
-	@RequestMapping(value=ITEM_URL, method=RequestMethod.DELETE)
+	@RequestMapping(value="/{companyId}", method=RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteCompany(@PathVariable Long companyId) {
 		companyService.deleteCompany(companyId);

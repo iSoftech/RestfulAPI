@@ -17,9 +17,9 @@ public interface ICompanyService {
 	
 	public BzbTCompany getCompany(Long id);
 	
-	public void addCompany(BzbTCompany company);
+	public BzbTCompany addCompany(BzbTCompany company);
 	
-	public void updateCompany(Long id, BzbTCompany company);
+	public BzbTCompany updateCompany(Long id, BzbTCompany company);
 	
 	public void deleteCompany(Long id);
 }
