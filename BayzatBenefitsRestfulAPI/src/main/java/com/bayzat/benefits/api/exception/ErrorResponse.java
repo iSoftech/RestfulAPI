@@ -12,31 +12,24 @@ import java.util.Date;
  */
 public class ErrorResponse {
 
-	private Date errorOccurredTime;
 	private String errorMessage;
 	private String errorDetails;
+	private Date errorOccurredTime;
 	
 	/**
 	 * Argument Constructor to Instantiate with Error details
 	 * 
-	 * @param errorOccurredTime
 	 * @param errorMessage
 	 * @param errorDetails
+	 * @param errorOccurredTime
 	 */
-	public ErrorResponse(Date errorOccurredTime, String errorMessage, String errorDetails) {
+	public ErrorResponse(String errorMessage, String errorDetails, Date errorOccurredTime) {
 		super();
-		this.errorOccurredTime = errorOccurredTime;
 		this.errorMessage = errorMessage;
 		this.errorDetails = errorDetails;
+		this.errorOccurredTime = errorOccurredTime;
 	}
-
-	/**
-	 * @return
-	 */
-	public Date getErrorOccurredTime() {
-		return errorOccurredTime;
-	}
-
+	
 	/**
 	 * @return
 	 */
@@ -49,5 +42,12 @@ public class ErrorResponse {
 	 */
 	public String getErrorDetails() {
 		return errorDetails;
+	}
+	
+	/**
+	 * @return
+	 */
+	public Date getErrorOccurredTime() {
+		return errorOccurredTime != null ? (Date) errorOccurredTime.clone() : null;
 	}
 }
