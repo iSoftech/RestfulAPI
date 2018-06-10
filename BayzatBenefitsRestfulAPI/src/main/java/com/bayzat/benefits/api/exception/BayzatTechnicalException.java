@@ -7,8 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
+ * Bayzat Technical Exception Class extended with Runtime Exception Class
+ * 
  * @author Mohamed Yusuff
- *
  */
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class BayzatTechnicalException extends RuntimeException {

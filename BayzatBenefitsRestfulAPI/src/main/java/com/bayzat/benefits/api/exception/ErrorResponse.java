@@ -13,20 +13,20 @@ import java.util.Date;
 public class ErrorResponse {
 
 	private String errorMessage;
-	private String errorDetails;
+	private String errorLocation;
 	private Date errorOccurredTime;
 	
 	/**
 	 * Argument Constructor to Instantiate with Error details
 	 * 
 	 * @param errorMessage
-	 * @param errorDetails
+	 * @param errorLocation
 	 * @param errorOccurredTime
 	 */
-	public ErrorResponse(String errorMessage, String errorDetails, Date errorOccurredTime) {
+	public ErrorResponse(String errorMessage, String errorLocation, Date errorOccurredTime) {
 		super();
 		this.errorMessage = errorMessage;
-		this.errorDetails = errorDetails;
+		this.errorLocation = errorLocation;
 		this.errorOccurredTime = errorOccurredTime;
 	}
 	
@@ -40,8 +40,8 @@ public class ErrorResponse {
 	/**
 	 * @return
 	 */
-	public String getErrorDetails() {
-		return errorDetails;
+	public String getErrorLocation() {
+		return errorLocation;
 	}
 	
 	/**

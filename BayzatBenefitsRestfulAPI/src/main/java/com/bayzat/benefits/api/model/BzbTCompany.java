@@ -18,16 +18,17 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.core.Relation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
+ * Bayzat Benefits Table for Company Entity Model
+ * 
  * @author Mohamed Yusuff
- *
  */
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
+@Relation(collectionRelation = "companies")
 @Table (name="BZB_T_COMPANY")
 public class BzbTCompany extends ResourceSupport implements Serializable {
 	
@@ -61,8 +62,8 @@ public class BzbTCompany extends ResourceSupport implements Serializable {
 	@JoinColumn(name="ADDRESS_ID", foreignKey=@ForeignKey(name="BZB_FK_COMPANY_ADDRESS_ID"))
 	private BzbTAddress address;
 	
-	@OneToMany(mappedBy="company", fetch=FetchType.LAZY)
 	@JsonIgnore
+	@OneToMany(mappedBy="company", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<BzbTEmployee> employees;
 
 	
@@ -260,6 +261,6 @@ public class BzbTCompany extends ResourceSupport implements Serializable {
 	public String toString() {
 		return "BzbTCompany [companyId=" + companyId + ", name=" + name + ", registrationNumber=" + registrationNumber
 				+ ", contactNumber=" + contactNumber + ", email=" + email + ", website=" + website + ", address="
-				+ address + /*", employees=" + employees + */"]";
+				+ address + "]";
 	}
 }

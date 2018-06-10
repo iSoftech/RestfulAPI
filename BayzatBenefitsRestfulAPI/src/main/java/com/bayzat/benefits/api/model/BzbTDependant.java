@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -19,14 +21,22 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.core.Relation;
+
+import com.bayzat.benefits.api.constant.Gender;
+import com.bayzat.benefits.api.constant.Relationship;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
+ * Bayzat Benefits Table for Dependant Entity Model
+ * 
  * @author Mohamed Yusuff
- *
  */
 @Entity
+@Relation(collectionRelation = "dependants")
 @Table (name="BZB_T_DEPENDANT")
-public class BzbTDependant implements Serializable {
+public class BzbTDependant extends ResourceSupport implements Serializable {
 
 	/**
 	 * Auto Generated Serial Version UID
@@ -46,7 +56,8 @@ public class BzbTDependant implements Serializable {
 	private String lastName;
 	
 	@Column(name="GENDER")
-	private String gender;
+	@Enumerated(EnumType.STRING)
+	private Gender gender;
 	
 	@Column(name="AGE")
 	private Integer age;
@@ -62,12 +73,14 @@ public class BzbTDependant implements Serializable {
 	private String email;
 	
 	@Column(name="RELATIONSHIP")
-	private String relationship;
+	@Enumerated(EnumType.STRING)
+	private Relationship relationship;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="ADDRESS_ID", foreignKey=@ForeignKey(name="BZB_FK_DEPENDANT_ADDRESS_ID"))
 	private BzbTAddress address;
 	
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.EAGER)
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	@JoinColumn(name="EMPLOYEE_ID", nullable=false, foreignKey=@ForeignKey(name="BZB_FK_DEPENDANT_EMPLOYEE_ID"))
@@ -98,12 +111,12 @@ public class BzbTDependant implements Serializable {
 			String contactNumber, String email, String relationship, BzbTAddress address, BzbTEmployee employee) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.gender = gender;
+		this.gender = Gender.valueOf(gender);
 		this.age = age;
-		this.dateOfBirth = dateOfBirth;
+		this.dateOfBirth = dateOfBirth != null ? (Date) dateOfBirth.clone() : null;
 		this.contactNumber = contactNumber;
 		this.email = email;
-		this.relationship = relationship;
+		this.relationship = Relationship.valueOf(relationship);
 		this.address = address;
 		this.employee = employee;
 	}
@@ -153,7 +166,7 @@ public class BzbTDependant implements Serializable {
 	/**
 	 * @return the gender
 	 */
-	public String getGender() {
+	public Gender getGender() {
 		return gender;
 	}
 
@@ -161,7 +174,7 @@ public class BzbTDependant implements Serializable {
 	 * @param gender the gender to set
 	 */
 	public void setGender(String gender) {
-		this.gender = gender;
+		this.gender = Gender.valueOf(gender);
 	}
 
 	/**
@@ -223,7 +236,7 @@ public class BzbTDependant implements Serializable {
 	/**
 	 * @return the relationship
 	 */
-	public String getRelationship() {
+	public Relationship getRelationship() {
 		return relationship;
 	}
 
@@ -231,7 +244,7 @@ public class BzbTDependant implements Serializable {
 	 * @param relationship the relationship to set
 	 */
 	public void setRelationship(String relationship) {
-		this.relationship = relationship;
+		this.relationship = Relationship.valueOf(relationship);
 	}
 
 	/**

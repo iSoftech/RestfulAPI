@@ -1,0 +1,851 @@
+FORMAT: 1A
+HOST: localhost:8086/BayzatBenefits/api/
+
+# Bayzat Benefits API
+
+Bayzat Benefits API is a simple API allowing users to create and maintain company-employee-dependant details.
+
+# Group Companies
+
+Resources related to companies in the API.
+
+## Companies Collection [/companies]
+
+### List All Companies Entities [GET]
+
+Returns all Companies available in the system.
+
++ Response 200 (application/hal+json)
+
+        [
+            {
+                "_embedded": {
+                    "companies": [
+                        {
+                            "companyId": 1001,
+                            "name": "Bayzat",
+                            "registrationNumber": "Bzt-2013",
+                            "contactNumber": "+97144298898",
+                            "email": "talktous@bayzat.com",
+                            "website": "http://www.bayzat.com",
+                            "address": {
+                                "addressId": 1001,
+                                "buildingName": "Control Tower",
+                                "unitNumber": "10-01",
+                                "streetAddress": "Detroid Rd",
+                                "town": "Motor City",
+                                "city": "Dubai",
+                                "state": "Dubai",
+                                "country": "United Arab Emirates",
+                                "postalCode": "391186"
+                            },
+                            "_links": {
+                                "self": {
+                                    "href": "http://localhost:8086/BayzatBenefits/api/companies/1001"
+                                },
+                                "employees": {
+                                    "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies"
+                    }
+                }
+            }
+        ]
+
+### Create a New Company Entity [POST]
+
+You may create a new Company details. It takes a JSON object containing company details and returns a HAL+JSON response with associated links.
+
++ Request (application/json)
+
+        {
+            "name": "Bayzat",
+            "registrationNumber": "Bzt-2013",
+            "contactNumber": "+97144298898",
+            "email": "talktous@bayzat.com",
+            "website": "http://www.bayzat.com",
+            "address": {
+                "buildingName": "Control Tower",
+                "unitNumber": "10-01",
+                "streetAddress": "Detroid Rd",
+                "town": "Motor City",
+                "city": "Dubai",
+                "state": "Dubai",
+                "country": "United Arab Emirates",
+                "postalCode": "391186"
+            }
+        }
+
++ Response 201 (application/hal+json)
+
+    + Headers
+
+            Location: /companies/1001
+
+    + Body
+
+            {
+                "companyId": 1001,
+                "name": "Bayzat",
+                "registrationNumber": "Bzt-2013",
+                "contactNumber": "+97144298898",
+                "email": "talktous@bayzat.com",
+                "website": "http://www.bayzat.com",
+                "address": {
+                    "addressId": 1001,
+                    "buildingName": "Control Tower",
+                    "unitNumber": "10-01",
+                    "streetAddress": "Detroid Rd",
+                    "town": "Motor City",
+                    "city": "Dubai",
+                    "state": "Dubai",
+                    "country": "United Arab Emirates",
+                    "postalCode": "391186"
+                },
+                "_links": {
+                    "companies": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies"
+                    },
+                    "self": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001"
+                    },
+                    "employees": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees"
+                    }
+                }
+            }
+
+## Single Company [/companies/{companyId}]
+
++ Parameters
+    + companyId (number) - Id of the Company in the form of a Long data type.
+
+### View a Company Entity [GET]
+
+Lists a Company available in the system with {companyId} path variable.
+
++ Request
+
+    + Headers
+
+            Location: /companies/1001
+            
++ Response 200 (application/hal+json)
+
+            {
+                "companyId": 1001,
+                "name": "Bayzat",
+                "registrationNumber": "Bzt-2013",
+                "contactNumber": "+97144298898",
+                "email": "talktous@bayzat.com",
+                "website": "http://www.bayzat.com",
+                "address": {
+                    "addressId": 1001,
+                    "buildingName": "Control Tower",
+                    "unitNumber": "10-01",
+                    "streetAddress": "Detroid Rd",
+                    "town": "Motor City",
+                    "city": "Dubai",
+                    "state": "Dubai",
+                    "country": "United Arab Emirates",
+                    "postalCode": "391186"
+                },
+                "_links": {
+                    "companies": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies"
+                    },
+                    "self": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001"
+                    },
+                    "employees": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees"
+                    }
+                }
+            }
+
+### Update an Existing Company Entity [PUT]
+
+You may update an existing Company details. It takes a JSON object containing company details and a path variable value {companyId} to point the particular entity.
+
++ Request (application/json)
+
+    + Headers
+
+            Location: /companies/1001
+            
+    + Body
+
+            {
+                "name": "Bayzat",
+                "registrationNumber": "Bzt-2018",
+                "contactNumber": "+97144298898",
+                "email": "talktous@bayzat.com",
+                "website": "http://www.bayzat.com",
+                "address": {
+                    "addressId": 1001,
+                    "buildingName": "Control Tower",
+                    "unitNumber": "10-01",
+                    "streetAddress": "Detroid Rd",
+                    "town": "Motor City",
+                    "city": "Abu Dhabi",
+                    "state": "Abu Dhabi",
+                    "country": "United Arab Emirates",
+                    "postalCode": "391186"
+                }
+            }
+
++ Response 201 (application/hal+json)
+
+    + Headers
+
+            Location: /companies/1001
+
+    + Body
+
+            {
+                "companyId": 1001,
+                "name": "Bayzat",
+                "registrationNumber": "Bzt-2018",
+                "contactNumber": "+97144298898",
+                "email": "talktous@bayzat.com",
+                "website": "http://www.bayzat.com",
+                "address": {
+                    "addressId": 1001,
+                    "buildingName": "Control Tower",
+                    "unitNumber": "10-01",
+                    "streetAddress": "Detroid Rd",
+                    "town": "Motor City",
+                    "city": "Abu Dhabi",
+                    "state": "Abu Dhabi",
+                    "country": "United Arab Emirates",
+                    "postalCode": "391186"
+                },
+                "_links": {
+                    "companies": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies"
+                    },
+                    "self": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001"
+                    },
+                    "employees": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees"
+                    }
+                }
+            }
+        
+### Delete an Existing Company Entity [DELETE]
+
+You may delete an existing Company details. It takes a path variable value for {companyId} to be deleted.
+
++ Request
+
+    + Headers
+
+            Location: /companies/1001
+            
++ Response 204
+
+
+# Group Employees
+
+Resources related to employees in the API.
+
+## Employees Collection [/companies/{companyId}/employees]
+
+### List All Employees Entities [GET]
+
+Returns all Employees available for a Company in the system.
+
++ Response 200 (application/hal+json)
+
+        [
+            {
+                "_embedded": {
+                    "employees": [
+                        {
+                            "employeeId": 1001,
+                            "employeeCode": "BZB-10001",
+                            "firstName": "Mohamed",
+                            "lastName": "Ahamed",
+                            "gender": "Male",
+                            "age": 31,
+                            "dateOfBirth": "1987-03-21",
+                            "contactNumber": "+97152898942",
+                            "email": "mohamed.a@bayzat.com",
+                            "currentSalary": 100000,
+                            "dateOfJoining": "2013-07-01",
+                            "address": {
+                                "addressId": 1002,
+                                "buildingName": "Tower 1",
+                                "unitNumber": "08-12",
+                                "streetAddress": "Baniyas Road",
+                                "town": "Deira",
+                                "city": "Dubai",
+                                "state": "Dubai",
+                                "country": "United Arab Emirates",
+                                "postalCode": "00594"
+                            },
+                            "_links": {
+                                "self": {
+                                    "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001"
+                                },
+                                "dependants": {
+                                    "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001/dependants"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "_links": {
+                    "companies": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies"
+                    },
+                    "company": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001"
+                    },
+                    "self": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees"
+                    }
+                }
+            }
+        ]
+
+### Create a New Employee Entity [POST]
+
+You may create a new Employee details for a Company. It takes a JSON object containing employee details and returns a HAL+JSON response with associated links.
+
++ Request (application/json)
+
+        {
+            "employeeCode": "BZB-10001",
+            "firstName": "Mohamed",
+            "lastName": "Ahamed",
+            "gender": "Male",
+            "age": 31,
+            "dateOfBirth": "1987-03-21",
+            "contactNumber": "+97152898942",
+            "email": "mohamed.a@bayzat.com",
+            "currentSalary": 100000,
+            "dateOfJoining": "2013-07-01",
+            "address": {
+                "buildingName": "Tower 1",
+                "unitNumber": "08-12",
+                "streetAddress": "Baniyas Road",
+                "town": "Deira",
+                "city": "Dubai",
+                "state": "Dubai",
+                "country": "United Arab Emirates",
+                "postalCode": "00594"
+            }
+        }
+
++ Response 201 (application/hal+json)
+
+    + Headers
+
+            Location: /companies/1001/employees
+
+    + Body
+
+            {
+                "employeeId": 1001,
+                "employeeCode": "BZB-10001",
+                "firstName": "Mohamed",
+                "lastName": "Ahamed",
+                "gender": "Male",
+                "age": 31,
+                "dateOfBirth": "1987-03-21",
+                "contactNumber": "+97152898942",
+                "email": "mohamed.a@bayzat.com",
+                "currentSalary": 100000,
+                "dateOfJoining": "2013-07-01",
+                "address": {
+                    "addressId": 1002,
+                    "buildingName": "Tower 1",
+                    "unitNumber": "08-12",
+                    "streetAddress": "Baniyas Road",
+                    "town": "Deira",
+                    "city": "Dubai",
+                    "state": "Dubai",
+                    "country": "United Arab Emirates",
+                    "postalCode": "00594"
+                },
+                "_links": {
+                    "companies": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies"
+                    },
+                    "company": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001"
+                    },
+                    "employees": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees"
+                    },
+                    "self": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001"
+                    }
+                }
+            }
+
+## Single Employee [/companies/{companyId}/employees/{employeeId}]
+
++ Parameters
+    + employeeId (number) - Id of the Employee in the form of a Long data type.
+
+### View an Employee Entity [GET]
+
+Lists an Employee available in the system with {employeeId} path variable.
+
++ Request
+
+    + Headers
+
+            Location: /companies/1001/employees/1001
+            
++ Response 200 (application/hal+json)
+
+            {
+                "employeeId": 1001,
+                "employeeCode": "BZB-10001",
+                "firstName": "Mohamed",
+                "lastName": "Ahamed",
+                "gender": "Male",
+                "age": 31,
+                "dateOfBirth": "1987-03-21",
+                "contactNumber": "+97152898942",
+                "email": "mohamed.a@bayzat.com",
+                "currentSalary": 100000,
+                "dateOfJoining": "2013-07-01",
+                "address": {
+                    "addressId": 1002,
+                    "buildingName": "Tower 1",
+                    "unitNumber": "08-12",
+                    "streetAddress": "Baniyas Road",
+                    "town": "Deira",
+                    "city": "Dubai",
+                    "state": "Dubai",
+                    "country": "United Arab Emirates",
+                    "postalCode": "00594"
+                },
+                "_links": {
+                    "companies": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies"
+                    },
+                    "company": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001"
+                    },
+                    "employees": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees"
+                    },
+                    "self": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001"
+                    },
+                    "dependants": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001/dependants"
+                    }
+                }
+            }
+
+### Update an Existing Emloyee Entity [PUT]
+
+You may update an existing Employee details. It takes a JSON object containing employee details and a path variable value {employeeId} to point the particular entity.
+
++ Request (application/json)
+
+    + Headers
+
+            Location: /companies/1001/employees/1001
+            
+    + Body
+
+            {
+                "employeeCode": "BZB-10001",
+                "firstName": "Mohamed",
+                "lastName": "Ahamed",
+                "gender": "Male",
+                "age": 31,
+                "dateOfBirth": "1987-03-21",
+                "contactNumber": "+97152898942",
+                "email": "mohamed.a@bayzat.com",
+                "currentSalary": 100500,
+                "dateOfJoining": "2013-07-01",
+                "address": {
+                    "addressId": 1002,
+                    "buildingName": "Tower 1",
+                    "unitNumber": "08-12",
+                    "streetAddress": "Baniyas Road",
+                    "town": "Deira",
+                    "city": "Abu Dhabi",
+                    "state": "Abu Dhabi",
+                    "country": "United Arab Emirates",
+                    "postalCode": "00594"
+                }
+            }
+
++ Response 201 (application/hal+json)
+
+    + Headers
+
+            Location: /companies/1001/employees/1001
+
+    + Body
+
+            {
+                "employeeId": 1001,
+                "employeeCode": "BZB-10001",
+                "firstName": "Mohamed",
+                "lastName": "Ahamed",
+                "gender": "Male",
+                "age": 31,
+                "dateOfBirth": "1987-03-21",
+                "contactNumber": "+97152898942",
+                "email": "mohamed.a@bayzat.com",
+                "currentSalary": 100500,
+                "dateOfJoining": "2013-07-01",
+                "address": {
+                    "addressId": 1002,
+                    "buildingName": "Tower 1",
+                    "unitNumber": "08-12",
+                    "streetAddress": "Baniyas Road",
+                    "town": "Deira",
+                    "city": "Abu Dhabi",
+                    "state": "Abu Dhabi",
+                    "country": "United Arab Emirates",
+                    "postalCode": "00594"
+                },
+                "_links": {
+                    "companies": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies"
+                    },
+                    "company": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001"
+                    },
+                    "employees": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees"
+                    },
+                    "self": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001"
+                    },
+                    "dependants": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001/dependants"
+                    }
+                }
+            }
+        
+### Delete an Existing Employee Entity [DELETE]
+
+You may delete an existing Employee details. It takes a path variable value for {employeeId} to be deleted.
+
++ Request
+
+    + Headers
+
+            Location: /companies/1001/employees/1001
+            
++ Response 204
+
+
+# Group Dependants
+
+Resources related to dependants in the API.
+
+## Dependants Collection [/companies/{companyId}/employees/{employeeId}/dependants]
+
+### List All Dependants Entities [GET]
+
+Returns all Dependants available for an Employee in a Company in the system.
+
++ Response 200 (application/hal+json)
+
+        [
+            {
+                "_embedded": {
+                    "dependants": [
+                        {
+                            "dependantId": 1001,
+                            "firstName": "Yasmin",
+                            "lastName": "Mohamed",
+                            "gender": "Female",
+                            "age": 27,
+                            "dateOfBirth": "1991-04-22",
+                            "contactNumber": "+97159759092",
+                            "email": "yasmin.m@gmail.com",
+                            "relationship": "Spouse",
+                            "address": {
+                                "addressId": 1002,
+                                "buildingName": "Tower 1",
+                                "unitNumber": "08-12",
+                                "streetAddress": "Baniyas Road",
+                                "town": "Deira",
+                                "city": "Dubai",
+                                "state": "Dubai",
+                                "country": "United Arab Emirates",
+                                "postalCode": "00594"
+                            },
+                            "_links": {
+                                "self": {
+                                    "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001/dependants/1001"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "_links": {
+                    "companies": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies"
+                    },
+                    "company": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001"
+                    },
+                    "employees": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees"
+                    },
+                    "employee": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001"
+                    },
+                    "self": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001/dependants"
+                    }
+                }
+            }
+        ]
+
+### Create a New Dependant Entity [POST]
+
+You may create a new Dependant details for an Employee in a Company. It takes a JSON object containing dependant details and returns a HAL+JSON response with associated links.
+
++ Request (application/json)
+
+        {
+            "firstName": "Yasmin",
+            "lastName": "Mohamed",
+            "gender": "Female",
+            "age": 27,
+            "dateOfBirth": "1991-04-22",
+            "contactNumber": "+97159759092",
+            "email": "yasmin.m@gmail.com",
+            "relationship": "Spouse",
+            "address": {
+                "buildingName": "Tower 1",
+                "unitNumber": "08-12",
+                "streetAddress": "Baniyas Road",
+                "town": "Deira",
+                "city": "Dubai",
+                "state": "Dubai",
+                "country": "United Arab Emirates",
+                "postalCode": "00594"
+            }
+        }
+
++ Response 201 (application/hal+json)
+
+    + Headers
+
+            Location: /companies/1001/employees/1001/dependants
+
+    + Body
+
+            {
+                "dependantId": 1001,
+                "firstName": "Yasmin",
+                "lastName": "Mohamed",
+                "gender": "Female",
+                "age": 27,
+                "dateOfBirth": "1991-04-22",
+                "contactNumber": "+97159759092",
+                "email": "yasmin.m@gmail.com",
+                "relationship": "Spouse",
+                "address": {
+                    "addressId": 1002,
+                    "buildingName": "Tower 1",
+                    "unitNumber": "08-12",
+                    "streetAddress": "Baniyas Road",
+                    "town": "Deira",
+                    "city": "Dubai",
+                    "state": "Dubai",
+                    "country": "United Arab Emirates",
+                    "postalCode": "00594"
+                },
+                "_links": {
+                    "companies": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies"
+                    },
+                    "company": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001"
+                    },
+                    "employees": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees"
+                    },
+                    "employee": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001"
+                    },
+                    "dependants": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001/dependants"
+                    },
+                    "self": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001/dependants/1001"
+                    }
+                }
+            }
+
+## Single Dependant [/companies/{companyId}/employees/{employeeId}/dependants/{dependantId}]
+
++ Parameters
+    + dependantId (number) - Id of the Dependant in the form of a Long data type.
+
+### View a Dependant Entity [GET]
+
+Lists a Dependant available in the system with {dependantId} path variable.
+
++ Request
+
+    + Headers
+
+            Location: /companies/1001/employees/1001/dependants/1001
+            
++ Response 200 (application/hal+json)
+
+            {
+                "dependantId": 1001,
+                "firstName": "Yasmin",
+                "lastName": "Mohamed",
+                "gender": "Female",
+                "age": 27,
+                "dateOfBirth": "1991-04-22",
+                "contactNumber": "+97159759092",
+                "email": "yasmin.m@gmail.com",
+                "relationship": "Spouse",
+                "address": {
+                    "addressId": 1002,
+                    "buildingName": "Tower 1",
+                    "unitNumber": "08-12",
+                    "streetAddress": "Baniyas Road",
+                    "town": "Deira",
+                    "city": "Dubai",
+                    "state": "Dubai",
+                    "country": "United Arab Emirates",
+                    "postalCode": "00594"
+                },
+                "_links": {
+                    "companies": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies"
+                    },
+                    "company": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001"
+                    },
+                    "employees": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees"
+                    },
+                    "employee": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001"
+                    },
+                    "dependants": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001/dependants"
+                    },
+                    "self": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001/dependants/1001"
+                    }
+                }
+            }
+
+### Update an Existing Emloyee Entity [PUT]
+
+You may update an existing Dependant details. It takes a JSON object containing dependant details and a path variable value {dependantId} to point the particular entity.
+
++ Request (application/json)
+
+    + Headers
+
+            Location: /companies/1001/employees/1001/dependants/dependantId
+            
+    + Body
+
+            {
+                "firstName": "Yasmin",
+                "lastName": "Mohamed",
+                "gender": "Female",
+                "age": 2,
+                "dateOfBirth": "2016-04-22",
+                "contactNumber": "+97159759092",
+                "email": "yasmin.m@gmail.com",
+                "relationship": "Child",
+                "address": {
+                    "addressId": 1002,
+                    "buildingName": "Tower 1",
+                    "unitNumber": "08-12",
+                    "streetAddress": "Baniyas Road",
+                    "town": "Deira",
+                    "city": "Abu Dhabi",
+                    "state": "Abu Dhabi",
+                    "country": "United Arab Emirates",
+                    "postalCode": "00594"
+                }
+            }
+
++ Response 201 (application/hal+json)
+
+    + Headers
+
+            Location: /companies/1001/employees/1001/dependants/1001
+
+    + Body
+
+            {
+                "dependantId": 1001,
+                "firstName": "Yasmin",
+                "lastName": "Mohamed",
+                "gender": "Female",
+                "age": 2,
+                "dateOfBirth": "2016-04-22",
+                "contactNumber": "+97159759092",
+                "email": "yasmin.m@gmail.com",
+                "relationship": "Child",
+                "address": {
+                    "addressId": 1002,
+                    "buildingName": "Tower 1",
+                    "unitNumber": "08-12",
+                    "streetAddress": "Baniyas Road",
+                    "town": "Deira",
+                    "city": "Abu Dhabi",
+                    "state": "Abu Dhabi",
+                    "country": "United Arab Emirates",
+                    "postalCode": "00594"
+                },
+                "_links": {
+                    "companies": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies"
+                    },
+                    "company": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001"
+                    },
+                    "employees": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees"
+                    },
+                    "employee": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001"
+                    },
+                    "dependants": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001/dependants"
+                    },
+                    "self": {
+                        "href": "http://localhost:8086/BayzatBenefits/api/companies/1001/employees/1001/dependants/1001"
+                    }
+                }
+            }
+        
+### Delete an Existing Dependant Entity [DELETE]
+
+You may delete an existing Dependant details. It takes a path variable value for {dependantId} to be deleted.
+
++ Request
+
+    + Headers
+
+            Location: /companies/1001/employees/1001/dependants/1001
+            
++ Response 204

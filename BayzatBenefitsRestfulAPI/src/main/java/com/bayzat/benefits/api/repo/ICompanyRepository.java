@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.bayzat.benefits.api.repo;
 
 
@@ -23,7 +20,7 @@ import com.bayzat.benefits.api.model.BzbTCompany;
 public interface ICompanyRepository extends JpaRepository<BzbTCompany, Long> {
 
 	/**
-	 * Finds a Company by its Address.PostalCode with a custom HQL Query
+	 * Finds a Company by its Address.PostalCode with a custom JPQL Query
 	 * 
 	 * @param postalCode refers to an attribute of {@link BzbTAddress}
 	 * @return a <tt>Optional<{@link BzbTCompany}></tt>
@@ -34,7 +31,7 @@ public interface ICompanyRepository extends JpaRepository<BzbTCompany, Long> {
 	public Optional<BzbTCompany> findByAddress_PostalCode(@Param("postalCode") String postalCode);
 
 	/**
-	 * Finds a Company by its Name and RegistrationNumber with a custom HQL Query
+	 * Finds a Company by its Name and RegistrationNumber with a custom JPQL Query
 	 * 
 	 * @param name refers to an attribute of {@link BzbTCompany}
 	 * @param registrationNumber refers to an attribute of {@link BzbTCompany}

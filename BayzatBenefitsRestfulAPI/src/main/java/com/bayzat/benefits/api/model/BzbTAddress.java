@@ -11,8 +11,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
+ * Bayzat Benefits Table for Address Entity Model
+ * 
  * @author Mohamed Yusuff
- *
  */
 @Entity
 @Table (name="BZB_T_ADDRESS")

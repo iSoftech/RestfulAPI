@@ -7,8 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
+ * Company Resource Exist Runtime Exception Class
+ * 
  * @author Mohamed Yusuff
- *
  */
 @ResponseStatus(HttpStatus.CONFLICT)
 public class CompanyResourceExistException extends RuntimeException {

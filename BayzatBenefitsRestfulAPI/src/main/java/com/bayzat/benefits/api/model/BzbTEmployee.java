@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -23,14 +25,21 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.core.Relation;
+
+import com.bayzat.benefits.api.constant.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
+ * Bayzat Benefits Table for Employee Entity Model
+ * 
  * @author Mohamed Yusuff
- *
  */
 @Entity
+@Relation(collectionRelation = "employees")
 @Table (name="BZB_T_EMPLOYEE")
-public class BzbTEmployee implements Serializable {
+public class BzbTEmployee extends ResourceSupport implements Serializable {
 
 	/**
 	 * Auto Generated Serial Version UID
@@ -53,7 +62,8 @@ public class BzbTEmployee implements Serializable {
 	private String lastName;
 	
 	@Column(name="GENDER")
-	private String gender;
+	@Enumerated(EnumType.STRING)
+	private Gender gender;
 	
 	@Column(name="AGE")
 	private Integer age;
@@ -75,16 +85,18 @@ public class BzbTEmployee implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dateOfJoining;
 	
-	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
+	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="ADDRESS_ID", foreignKey=@ForeignKey(name="BZB_FK_EMPLOYEE_ADDRESS_ID"))
 	private BzbTAddress address;
 	
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.EAGER)
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	@JoinColumn(name="COMPANY_ID", nullable=false, foreignKey=@ForeignKey(name="BZB_FK_EMPLOYEE_COMPANY_ID"))
 	private BzbTCompany company;
 	
-	@OneToMany(mappedBy="employee", fetch=FetchType.LAZY)
+	@JsonIgnore
+	@OneToMany(mappedBy="employee", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<BzbTDependant> dependants;
 
 	
@@ -116,13 +128,13 @@ public class BzbTEmployee implements Serializable {
 		this.employeeCode = employeeCode;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.gender = gender;
+		this.gender = Gender.valueOf(gender);
 		this.age = age;
-		this.dateOfBirth = dateOfBirth;
+		this.dateOfBirth = dateOfBirth != null ? (Date) dateOfBirth.clone() : null;
 		this.contactNumber = contactNumber;
 		this.email = email;
 		this.currentSalary = currentSalary;
-		this.dateOfJoining = dateOfJoining;
+		this.dateOfJoining = dateOfJoining != null ? (Date) dateOfJoining.clone() : null;
 		this.address = address;
 		this.company = company;
 	}
@@ -186,7 +198,7 @@ public class BzbTEmployee implements Serializable {
 	/**
 	 * @return the gender
 	 */
-	public String getGender() {
+	public Gender getGender() {
 		return gender;
 	}
 
@@ -194,7 +206,7 @@ public class BzbTEmployee implements Serializable {
 	 * @param gender the gender to set
 	 */
 	public void setGender(String gender) {
-		this.gender = gender;
+		this.gender = Gender.valueOf(gender);
 	}
 
 	/**
@@ -434,7 +446,6 @@ public class BzbTEmployee implements Serializable {
 		return "BzbTEmployee [employeeId=" + employeeId + ", employeeCode=" + employeeCode + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", gender=" + gender + ", age=" + age + ", dateOfBirth=" + dateOfBirth
 				+ ", contactNumber=" + contactNumber + ", email=" + email + ", currentSalary=" + currentSalary
-				+ ", dateOfJoining=" + dateOfJoining + ", address=" + address + ", company=" + company/* + ", dependants="
-				+ dependants */+ "]";
+				+ ", dateOfJoining=" + dateOfJoining + ", address=" + address + ", company=" + company + "]";
 	}
 }

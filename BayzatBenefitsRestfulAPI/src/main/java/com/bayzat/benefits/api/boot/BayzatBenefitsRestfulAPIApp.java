@@ -6,8 +6,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
+ * Bayzat Benefits Restful API Spring Boot Application
+ * 
  * @author Mohamed Yusuff
- *
  */
 @SpringBootApplication(scanBasePackages="com.bayzat.benefits.api")
 @EntityScan("com.bayzat.benefits.api.model")
