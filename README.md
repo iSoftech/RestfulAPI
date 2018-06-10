@@ -1,5 +1,3 @@
-# RestfulAPI
-Restful API with Spring Boot
 # Bayzat Benefits Restful API
 A Simple Restful API that exposes reationship between Company, Employee and Dependant
 
