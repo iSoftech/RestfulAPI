@@ -1,9 +1,9 @@
 package com.bayzat.benefits.api.boot;
 
+import org.apache.catalina.security.SecurityConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.context.annotation.Import;
 
 /**
  * Bayzat Benefits Restful API Spring Boot Application
@@ -11,8 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * @author Mohamed Yusuff
  */
 @SpringBootApplication(scanBasePackages="com.bayzat.benefits.api")
-@EntityScan("com.bayzat.benefits.api.model")
-@EnableJpaRepositories("com.bayzat.benefits.api.repo")
+@Import({SecurityConfig.class})
 public class BayzatBenefitsRestfulAPIApp {
 
 	public static void main(String[] args) {
