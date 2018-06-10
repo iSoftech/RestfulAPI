@@ -9,8 +9,11 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.bayzat.benefits.api.exception.BayzatTechnicalException;
 import com.bayzat.benefits.api.exception.CompanyResourceExistException;
@@ -46,7 +49,7 @@ public class CompanyServiceImpl implements ICompanyService {
 			companies = companyRepository.findAll();
 		} catch (Exception exc) {
 			LOGGER.error("Error occurred when trying to fetch all Companies", exc);
-			throw new BayzatTechnicalException(exc.getMessage());
+			throw new BayzatTechnicalException(exc.getMessage(), null);
 		}
 		return companies;
 	}
@@ -68,7 +71,8 @@ public class CompanyServiceImpl implements ICompanyService {
 			company = companyRepository.getOne(companyId);
 		} catch (Exception exc) {
 			LOGGER.error("Error occurred when trying to fetch Company with CompanyId - " + companyId, exc);
-			throw new BayzatTechnicalException(exc.getMessage());
+			HttpStatus httpStatus = AnnotationUtils.findAnnotation(exc.getClass(), ResponseStatus.class).code();
+			throw new BayzatTechnicalException(exc.getMessage(), httpStatus);
 		}
 		return company;
 	}
@@ -90,7 +94,8 @@ public class CompanyServiceImpl implements ICompanyService {
 			savedCompany = companyRepository.save(company);
 		} catch (Exception exc) {
 			LOGGER.error("Error occurred when trying to add a new Company", exc);
-			throw new BayzatTechnicalException(exc.getMessage());
+			HttpStatus httpStatus = AnnotationUtils.findAnnotation(exc.getClass(), ResponseStatus.class).code();
+			throw new BayzatTechnicalException(exc.getMessage(), httpStatus);
 		}
 		return savedCompany;
 	}
@@ -121,7 +126,8 @@ public class CompanyServiceImpl implements ICompanyService {
 			updatedCompany = companyRepository.save(company);
 		} catch (Exception exc) {
 			LOGGER.error("Error occurred when trying to update an existing Company with CompanyId - " + companyId, exc);
-			throw new BayzatTechnicalException(exc.getMessage());
+			HttpStatus httpStatus = AnnotationUtils.findAnnotation(exc.getClass(), ResponseStatus.class).code();
+			throw new BayzatTechnicalException(exc.getMessage(), httpStatus);
 		}
 		return updatedCompany;
 	}
@@ -141,7 +147,8 @@ public class CompanyServiceImpl implements ICompanyService {
 			companyRepository.deleteById(companyId);
 		} catch (Exception exc) {
 			LOGGER.error("Error occurred when trying to delete an existing Company", exc);
-			throw new BayzatTechnicalException(exc.getMessage());
+			HttpStatus httpStatus = AnnotationUtils.findAnnotation(exc.getClass(), ResponseStatus.class).code();
+			throw new BayzatTechnicalException(exc.getMessage(), httpStatus);
 		}
 	}
 

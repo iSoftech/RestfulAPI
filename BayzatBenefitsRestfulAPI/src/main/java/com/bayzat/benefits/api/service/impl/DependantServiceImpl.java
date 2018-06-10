@@ -9,8 +9,11 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.bayzat.benefits.api.exception.BayzatTechnicalException;
 import com.bayzat.benefits.api.exception.CompanyResourceNotExistException;
@@ -63,7 +66,8 @@ public class DependantServiceImpl implements IDependantService {
 		} catch (Exception exc) {
 			LOGGER.error("Error occurred when trying to fetch all Dependants for the Employee with EmployeeId - "
 					+ employeeId + " and CompanyId - " + companyId, exc);
-			throw new BayzatTechnicalException(exc.getMessage());
+			HttpStatus httpStatus = AnnotationUtils.findAnnotation(exc.getClass(), ResponseStatus.class).code();
+			throw new BayzatTechnicalException(exc.getMessage(), httpStatus);
 		}
 		return dependants;
 	}
@@ -87,7 +91,8 @@ public class DependantServiceImpl implements IDependantService {
 		} catch (Exception exc) {
 			LOGGER.error("Error occurred when trying to fetch a dependant with dependantId - " + dependantId
 						+ " and EmployeeId - " + employeeId + " for the company with CompanyId - " + companyId, exc);
-			throw new BayzatTechnicalException(exc.getMessage());
+			HttpStatus httpStatus = AnnotationUtils.findAnnotation(exc.getClass(), ResponseStatus.class).code();
+			throw new BayzatTechnicalException(exc.getMessage(), httpStatus);
 		}
 		return dependant;
 	}
@@ -115,7 +120,8 @@ public class DependantServiceImpl implements IDependantService {
 		} catch (Exception exc) {
 			LOGGER.error("Error occurred when trying to add a new Dependant for the Employee with EmployeeId - " + employeeId
 					+ " and Company with CompanyId - " + companyId, exc);
-			throw new BayzatTechnicalException(exc.getMessage());
+			HttpStatus httpStatus = AnnotationUtils.findAnnotation(exc.getClass(), ResponseStatus.class).code();
+			throw new BayzatTechnicalException(exc.getMessage(), httpStatus);
 		}
 		return savedDependant;
 	}
@@ -151,7 +157,8 @@ public class DependantServiceImpl implements IDependantService {
 			LOGGER.error("Error occurred when trying to update an existing Dependant with DependantId - " + dependantId
 					+ " and Employee with EmployeeId - " + employeeId + " for the Company with CompanyId - "
 					+ companyId, exc);
-			throw new BayzatTechnicalException(exc.getMessage());
+			HttpStatus httpStatus = AnnotationUtils.findAnnotation(exc.getClass(), ResponseStatus.class).code();
+			throw new BayzatTechnicalException(exc.getMessage(), httpStatus);
 		}
 		return updatedDependant;
 	}
@@ -174,7 +181,8 @@ public class DependantServiceImpl implements IDependantService {
 			LOGGER.error("Error occurred when trying to delete an existing Dependant by its DependantId - "
 					+ dependantId + " and Employee with EmployeeId - " + employeeId
 					+ " for the Company with CompanyId - " + companyId, exc);
-			throw new BayzatTechnicalException(exc.getMessage());
+			HttpStatus httpStatus = AnnotationUtils.findAnnotation(exc.getClass(), ResponseStatus.class).code();
+			throw new BayzatTechnicalException(exc.getMessage(), httpStatus);
 		}
 	}
 

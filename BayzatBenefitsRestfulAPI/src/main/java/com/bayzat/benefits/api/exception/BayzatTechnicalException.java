@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class BayzatTechnicalException extends RuntimeException {
 	
+	private HttpStatus httpStatus;
+	
 	/**
 	 * Auto Generated Serial Version UID
 	 */
@@ -23,8 +25,17 @@ public class BayzatTechnicalException extends RuntimeException {
 	 * Parameterised Constructor to store Error Message
 	 * 
 	 * @param errorMessage
+	 * @param httpStatus
 	 */
-	public BayzatTechnicalException(String errorMessage) {
+	public BayzatTechnicalException(String errorMessage, HttpStatus httpStatus) {
 		super(errorMessage);
+		this.httpStatus = httpStatus;
+	}
+
+	/**
+	 * @return
+	 */
+	public HttpStatus getHttpStatus() {
+		return httpStatus;
 	}
 }

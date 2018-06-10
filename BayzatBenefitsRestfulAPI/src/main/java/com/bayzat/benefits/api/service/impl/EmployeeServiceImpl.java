@@ -9,8 +9,11 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.bayzat.benefits.api.exception.BayzatTechnicalException;
 import com.bayzat.benefits.api.exception.CompanyResourceNotExistException;
@@ -57,7 +60,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		} catch (Exception exc) {
 			LOGGER.error("Error occurred when trying to fetch all Employees for the Company with CompanyId - "
 					+ companyId, exc);
-			throw new BayzatTechnicalException(exc.getMessage());
+			HttpStatus httpStatus = AnnotationUtils.findAnnotation(exc.getClass(), ResponseStatus.class).code();
+			throw new BayzatTechnicalException(exc.getMessage(), httpStatus);
 		}
 		return employees;
 	}
@@ -81,7 +85,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		} catch (Exception exc) {
 			LOGGER.error("Error occurred when trying to fetch an Employee with EmployeeId - " + employeeId
 					+ " for the Company with CompanyId - " + companyId, exc);
-			throw new BayzatTechnicalException(exc.getMessage());
+			HttpStatus httpStatus = AnnotationUtils.findAnnotation(exc.getClass(), ResponseStatus.class).code();
+			throw new BayzatTechnicalException(exc.getMessage(), httpStatus);
 		}
 		return employee;
 	}
@@ -109,7 +114,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		} catch (Exception exc) {
 			LOGGER.error("Error occurred when trying to add a new Employee for the Company with CompanyId - "
 					+ companyId, exc);
-			throw new BayzatTechnicalException(exc.getMessage());
+			HttpStatus httpStatus = AnnotationUtils.findAnnotation(exc.getClass(), ResponseStatus.class).code();
+			throw new BayzatTechnicalException(exc.getMessage(), httpStatus);
 		}
 		return savedEmployee;
 	}
@@ -144,7 +150,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		} catch (Exception exc) {
 			LOGGER.error("Error occurred when trying to update an existing Employee with EmployeeId - " + employeeId
 					+ " for the Company with CompanyId - " + companyId, exc);
-			throw new BayzatTechnicalException(exc.getMessage());
+			HttpStatus httpStatus = AnnotationUtils.findAnnotation(exc.getClass(), ResponseStatus.class).code();
+			throw new BayzatTechnicalException(exc.getMessage(), httpStatus);
 		}
 		return updatedEmployee;
 	}
@@ -166,7 +173,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		} catch (Exception exc) {
 			LOGGER.error("Error occurred when trying to delete an existing Employee with EmployeeId - " + employeeId
 					+ " for the Company with CompanyId - " + companyId, exc);
-			throw new BayzatTechnicalException(exc.getMessage());
+			HttpStatus httpStatus = AnnotationUtils.findAnnotation(exc.getClass(), ResponseStatus.class).code();
+			throw new BayzatTechnicalException(exc.getMessage(), httpStatus);
 		}
 	}
 

@@ -1,7 +1,10 @@
 package com.bayzat.benefits.api.boot;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -21,8 +24,7 @@ import com.bayzat.benefits.api.model.BzbTAddress;
 import com.bayzat.benefits.api.model.BzbTCompany;
 import com.bayzat.benefits.api.resource.CompanyResource;
 import com.bayzat.benefits.api.service.ICompanyService;
-import com.bayzat.benefits.api.service.IDependantService;
-import com.bayzat.benefits.api.service.IEmployeeService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Bayzat Benefits Restful API Integration Tests for Company Resource Controller
@@ -48,12 +50,6 @@ public class CompanyResourceTests {
 	@Autowired
 	ICompanyService companyService;
 	
-	@Autowired
-	IEmployeeService employeeService;
-	
-	@Autowired
-	IDependantService dependantService;
-	
 	private BzbTCompany company = null;
 	
 	@Before
@@ -61,9 +57,16 @@ public class CompanyResourceTests {
 		company = new BzbTCompany();
 		company.setCompanyId(Long.valueOf(1001));
 		company.setName("Bayzat");
+		company.setRegistrationNumber("Bzt-2013");
 		BzbTAddress address = new BzbTAddress();
 		address.setAddressId(Long.valueOf(1001));
+		address.setBuildingName("Control Tower");
+		address.setUnitNumber("10-01");
+		address.setStreetAddress("Detroit Rd");
+		address.setTown("Motor City");
 		address.setCity("Dubai");
+		address.setState("Dubai");
+		address.setCountry("United Arab Emirates");
 		address.setPostalCode("391186");
 		company.setAddress(address);
 	}
@@ -138,15 +141,85 @@ public class CompanyResourceTests {
 	}
 	
 	/**
+	 * Tests Create a Company
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreateCompany() throws Exception {
+		// Invokes [/companies] Resource with ContentType as "application/hal+json;charset=UTF-8" and verifies the
+		// Return Response Status is 201 - CREATED
+		this.mockMvc.perform(
+				post("/companies").contentType(contentType).content(new ObjectMapper().writeValueAsString(company)))
+				.andExpect(status().isCreated());
+	}
+	
+	/**
+	 * Tests Create a Company Already Exist
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreateCompanyAlreadyExist() throws Exception {
+		// Invokes [/companies] Resource with ContentType as "application/hal+json;charset=UTF-8" and verifies the
+		// Return Response Status is 409 - CONFLICT
+		this.mockMvc.perform(
+				post("/companies").contentType(contentType).content(new ObjectMapper().writeValueAsString(company)))
+				.andExpect(status().isConflict());
+	}
+	
+	/**
+	 * Tests Create a Company Already Exist with Same Address
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreateCompanyAlreadyExistWithSameAddress() throws Exception {
+		// Invokes [/companies] Resource with ContentType as "application/hal+json;charset=UTF-8" and verifies the
+		// Return Response Status is 409 - CONFLICT
+		company.setRegistrationNumber("Bzt-2018");
+		this.mockMvc.perform(
+				post("/companies").contentType(contentType).content(new ObjectMapper().writeValueAsString(company)))
+				.andExpect(status().isConflict());
+	}
+	
+	/**
+	 * Tests Updates a Company
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testUpdateCompany() throws Exception {
+		// Invokes [/companies/{companyId}] Resource with ContentType as "application/hal+json;charset=UTF-8" and
+		// verifies the Return Response Status is 201 - CREATED
+		company.setRegistrationNumber("Bzt-2018");
+		this.mockMvc.perform(put("/companies/" + company.getCompanyId()).contentType(contentType)
+				.content(new ObjectMapper().writeValueAsString(company))).andExpect(status().isCreated());
+	}
+	
+	/**
+	 * Tests Updates a Company Not Exist
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testUpdateCompanyNotExist() throws Exception {
+		// Invokes [/companies/{companyId}] Resource with ContentType as "application/hal+json;charset=UTF-8" and
+		// verifies the Return Response Status is 404 - NOT_FOUND
+		this.mockMvc.perform(put("/companies/" + Long.valueOf(5001)).contentType(contentType)
+				.content(new ObjectMapper().writeValueAsString(company))).andExpect(status().isNotFound());
+	}
+	
+	/**
 	 * Tests Delete a Company Not Found
 	 * 
 	 * @throws Exception
 	 */
 	@Test
 	public void testDeleteCompanyNotFound() throws Exception {
-		// Invokes [/companies] Resource and verifies the Return Response Status is 404 - NOT_FOUND
+		// Invokes [/companies/{companyId}] Resource and verifies the Return Response Status is 404 - NOT_FOUND
 		// and ContentType is "application/hal+json;charset=UTF-8"
-		mockMvc.perform(get("/companies/" + Long.valueOf(5001))
+		mockMvc.perform(delete("/companies/" + Long.valueOf(5001))
 				.accept(APPLICATION_HAL_JSON)).andExpect(status().isNotFound())
 		.andExpect(content().contentType(contentType));
 	}

@@ -34,7 +34,8 @@ public class BayzatResponseEntityExceptionHandler extends ResponseEntityExceptio
 	public ResponseEntity<Object> handleBayzatTechnicalExceptions(BayzatTechnicalException btExc, WebRequest request)
 			throws Exception {
 		ErrorResponse errorResponse = new ErrorResponse(btExc.getMessage(), request.getDescription(false), new Date());
-		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(errorResponse,
+				btExc.getHttpStatus() != null ? btExc.getHttpStatus() : HttpStatus.NOT_FOUND);
 	}
 	
 	/**
