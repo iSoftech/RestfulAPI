@@ -10,7 +10,7 @@ INSERT INTO BZB_T_ADDRESS (ADDRESS_ID, BUILDING_NAME, UNIT_NUMBER, STREET_ADDRES
 VALUES (BZB_SQ_ADDRESS_ID.nextval, 'Tower 1', '08-12', 'Baniyas Road', 'Deira', 'Dubai', 'Dubai', 'United Arab Emirates', '00594');
 -- Employee Details for Bayzat Employee 1
 INSERT INTO BZB_T_EMPLOYEE (EMPLOYEE_ID, EMPLOYEE_CODE, FIRST_NAME, LAST_NAME, GENDER, AGE, DATE_OF_BIRTH, CONTACT_NUMBER, EMAIL, CURRENT_SALARY, DATE_OF_JOINING, ADDRESS_ID, COMPANY_ID) 
-VALUES (BZB_SQ_EMPLOYEE_ID.nextval, 'BZB-10001', 'Mohamed', 'Ahamed', 'Male', 31, to_date('21-03-1987', 'dd-mm-yyyy'), '+97152898942', 'mohamed.a@bayzat.com', '100000.00', to_date('01-07-2013', 'dd-mm-yyyy'), BZB_SQ_ADDRESS_ID.currval, BZB_SQ_COMPANY_ID.currval);
+VALUES (BZB_SQ_EMPLOYEE_ID.nextval, 'BZT-10001', 'Mohamed', 'Ahamed', 'Male', 31, to_date('21-03-1987', 'dd-mm-yyyy'), '+97152898942', 'mohamed.a@bayzat.com', '100000.00', to_date('01-07-2013', 'dd-mm-yyyy'), BZB_SQ_ADDRESS_ID.currval, BZB_SQ_COMPANY_ID.currval);
 -- Dependant Details for Bayzat Employee 1
 INSERT INTO BZB_T_DEPENDANT (DEPENDANT_ID, FIRST_NAME, LAST_NAME, GENDER, AGE, DATE_OF_BIRTH, CONTACT_NUMBER, EMAIL, RELATIONSHIP, ADDRESS_ID, EMPLOYEE_ID) 
 VALUES (BZB_SQ_DEPENDANT_ID.nextval, 'Yasmin', 'Mohamed', 'Female', 27, to_date('22-04-1991', 'dd-mm-yyyy'), '+97159759092', 'yasmin.m@gmail.com', 'Spouse', BZB_SQ_ADDRESS_ID.currval, BZB_SQ_EMPLOYEE_ID.currval);
@@ -20,7 +20,7 @@ INSERT INTO BZB_T_ADDRESS (ADDRESS_ID, BUILDING_NAME, UNIT_NUMBER, STREET_ADDRES
 VALUES (BZB_SQ_ADDRESS_ID.nextval, 'Building 12', '08-27', '33rd Street Shabia10', 'Shabia', 'Abu Dhabi', 'Abu Dhabi', 'United Arab Emirates', '552370');
 -- Employee Details for Bayzat Employee 2
 INSERT INTO BZB_T_EMPLOYEE (EMPLOYEE_ID, EMPLOYEE_CODE, FIRST_NAME, LAST_NAME, GENDER, AGE, DATE_OF_BIRTH, CONTACT_NUMBER, EMAIL, CURRENT_SALARY, DATE_OF_JOINING, ADDRESS_ID, COMPANY_ID) 
-VALUES (BZB_SQ_EMPLOYEE_ID.nextval, 'BZB-10153', 'Yunus', 'Mohamed', 'Male', 27, to_date('28-07-1990', 'dd-mm-yyyy'), '+97123498734', 'yunus.m@bayzat.com', '10000.00', to_date('01-05-2017', 'dd-mm-yyyy'), BZB_SQ_ADDRESS_ID.currval, BZB_SQ_COMPANY_ID.currval);
+VALUES (BZB_SQ_EMPLOYEE_ID.nextval, 'BZT-10153', 'Yunus', 'Mohamed', 'Male', 27, to_date('28-07-1990', 'dd-mm-yyyy'), '+97123498734', 'yunus.m@bayzat.com', '10000.00', to_date('01-05-2017', 'dd-mm-yyyy'), BZB_SQ_ADDRESS_ID.currval, BZB_SQ_COMPANY_ID.currval);
 -- Dependant 1 Details for Bayzat Employee 2
 INSERT INTO BZB_T_DEPENDANT (DEPENDANT_ID, FIRST_NAME, LAST_NAME, GENDER, AGE, DATE_OF_BIRTH, CONTACT_NUMBER, EMAIL, RELATIONSHIP, ADDRESS_ID, EMPLOYEE_ID) 
 VALUES (BZB_SQ_DEPENDANT_ID.nextval, 'Sumaiya', 'Yunus', 'Female', 25, to_date('22-04-1993', 'dd-mm-yyyy'), '+97159873492', 'sumaiya.y@gmail.com', 'Spouse', BZB_SQ_ADDRESS_ID.currval, BZB_SQ_EMPLOYEE_ID.currval);

@@ -57,6 +57,23 @@ public class BayzatBenefitsRestfulAPIAppTests {
 				.thenReturn(Collections.emptyList());
 	}
 	
+	/**
+	 * Tests Spring Boot Application Context Loader
+	 */
+	@Test
+    public void testContextLoads() {
+    }
+	
+	/**
+	 * Tests Spring Boot Application
+	 */
+	@Test
+	public void testMain() {
+		BayzatBenefitsRestfulAPIApp.main(new String[] {
+				"spring.profiles.active=test"
+		});
+	}
+	
 	@Test
 	public void testGetAllCompanies() throws Exception {
 		// Invokes [/companies] Resource and verifies the Return Response Status is 200 - OK

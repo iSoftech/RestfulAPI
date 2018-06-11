@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * 
  * @author Mohamed Yusuff
  */
-@ResponseStatus(HttpStatus.NOT_FOUND)
+@ResponseStatus(HttpStatus.CONFLICT)
 public class DependantResourceExistException extends RuntimeException {
 	
 	/**

@@ -25,19 +25,12 @@ public enum Gender {
 	}
 
 	/**
-	 * @param value
-	 */
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	/**
-	 * @return a string value
+	 * @return
 	 */
 	public String getValue() {
 		return value;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Enum#toString()
 	 */
